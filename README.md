@@ -17,6 +17,6 @@ Para iniciar el server, ejecutar el archvo run.sh
 
 Ejecutar la App
 ===============
-Para correr el testing, ingresar en: http://localhost:8080/javaee7Sample/
-
+- Para correr el testing, ingresar en: http://localhost:8080/javaee7Sample/
+- Para apagar el server escribir: x + intro 
 
