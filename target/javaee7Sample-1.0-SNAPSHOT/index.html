@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Testing websockets</title>
+<title>Testing websockets - Multi Usuario</title>
 </head>
 <body>
 	<div>
-		<input type="submit" value="Start" onclick="start()" />
+		<input id="inputmessage" type="text" />
+	</div>
+	<div>
+		<input type="submit" value="Broadcast message" onclick="send()" />
 	</div>
 	<div id="messages"></div>
 	<script type="text/javascript">
@@ -26,7 +29,7 @@
 
 		function onMessage(event) {
 			document.getElementById('messages').innerHTML 
-				+= '<br />' + event.data;
+				+= '<br />Received message: ' + event.data;
 		}
 
 		function onOpen(event) {
@@ -38,8 +41,9 @@
 			alert(event.data);
 		}
 
-		function start() {
-			webSocket.send('hello');
+		function send() {
+			var txt = document.getElementById('inputmessage').value;
+			webSocket.send(txt);
 			return false;
 		}
 	</script>

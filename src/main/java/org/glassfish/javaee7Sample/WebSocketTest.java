@@ -1,6 +1,9 @@
 package org.glassfish.javaee7Sample;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
@@ -11,37 +14,33 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint("/websocket")
 public class WebSocketTest {
 
+	private static Set<Session> clients = Collections.synchronizedSet(new HashSet<Session>());
+	
 	@OnMessage
     public void onMessage(String message, Session session) 
-    	throws IOException, InterruptedException {
+    	throws IOException {
 		
-		// Print the client message for testing purposes
-		System.out.println("Received: " + message);
-		
-		// Send the first message to the client
-		session.getBasicRemote().sendText("This is the first server message");
-		
-		// Send 3 messages to the client every 5 seconds
-		int sentMessages = 0;
-		while(sentMessages < 3){
-			Thread.sleep(5000);
-			session.getBasicRemote().
-				sendText("This is an intermediate server message. Count: " 
-					+ sentMessages);
-			sentMessages++;
+		synchronized(clients){
+			// Iterate over the connected sessions
+			// and broadcast the received message
+			for(Session client : clients){
+				if (!client.equals(session)){
+					client.getBasicRemote().sendText(message);
+				}
+			}
 		}
 		
-		// Send a final message to the client
-		session.getBasicRemote().sendText("This is the last server message");
     }
 	
 	@OnOpen
-    public void onOpen () {
-        System.out.println("Client connected");
+    public void onOpen (Session session) {
+		// Add session to the connected sessions set
+		clients.add(session);
     }
 
     @OnClose
-    public void onClose () {
-    	System.out.println("Connection closed");
+    public void onClose (Session session) {
+    	// Remove session from the connected sessions set
+    	clients.remove(session);
     }
 }
