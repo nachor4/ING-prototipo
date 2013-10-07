@@ -12,8 +12,9 @@ plugin "embebido" de glassfish que será descargado e instalado por MVN
 
 Inciar el Server
 ================
-Para iniciar el server, ejecutar el archvo run.sh
-
+- Para iniciar el server, ejecutar el archvo run.sh
+- Nota: En la primera ejecución se descargan todos los archivos de GlassFish. 
+Esto puede demorar mucho tiempo dependiendo del tipo de conexion.
 
 Ejecutar la App
 ===============
