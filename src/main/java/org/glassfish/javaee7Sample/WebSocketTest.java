@@ -11,6 +11,9 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import javax.websocket.CloseReason;
+import javax.websocket.CloseReason.CloseCodes;
+
 @ServerEndpoint("/websocket")
 public class WebSocketTest {
 
@@ -27,7 +30,7 @@ public class WebSocketTest {
 		// Send 3 messages to the client every 5 seconds
 		int sentMessages = 0;
 		while(sentMessages < 3){
-			Thread.sleep(5000);
+			Thread.sleep(2000);
 			session.getBasicRemote().
 				sendText("This is an intermediate server message. Count: " 
 					+ sentMessages);
@@ -39,12 +42,17 @@ public class WebSocketTest {
     }
 
 	@OnOpen
-    public void onOpen () {
+    public void onOpen (Session session) {
         System.out.println("Client connected");
+
+		System.out.println("Session ID: " + session.getId());
+		System.out.println("Session max timeout: " + session.getMaxIdleTimeout());
+		session.setMaxIdleTimeout(5000);
+		System.out.println("Session max timeout (nuevo): " + session.getMaxIdleTimeout());
     }
 
     @OnClose
-    public void onClose () {
-    	System.out.println("Connection closed");
+    public void onClose (Session session, CloseReason closeReason) {
+    	System.out.println("Connection closed - Session id:"+session.getId()+" - Reason: "+closeReason);
     }
 }
