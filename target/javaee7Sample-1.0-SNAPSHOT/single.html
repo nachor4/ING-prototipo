@@ -20,6 +20,10 @@
 			onOpen(event)
 		};
 
+		webSocket.onclose = function(event) {
+			onClose(event)
+		};
+
 		webSocket.onmessage = function(event) {
 			onMessage(event)
 		};
@@ -38,8 +42,17 @@
 			alert(event.data);
 		}
 
+		function onClose(event) {
+			alert('Conexion Cerrada por el Servidor!');
+		}
+
 		function start() {
-			webSocket.send('hello');
+			
+			if (webSocket.readyState == webSocket.OPEN)
+				webSocket.send('hello');
+			else{
+				alert("No hay conexion con el servidor");
+			}
 			return false;
 		}
 	</script>
