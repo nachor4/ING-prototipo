@@ -1,6 +1,0 @@
-!/bin/bash
-clear
-
-mvn package embedded-glassfish:run
-
-echo Para correr el testing, ingresar en: http://localhost:8080/javaee7Sample/

@@ -8,3 +8,6 @@ target/*
 *.jar
 *.war
 *.ear
+
+# System Files #
+*.sh~
