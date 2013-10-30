@@ -14,6 +14,8 @@ import javax.websocket.server.ServerEndpoint;
 import javax.websocket.CloseReason;
 import javax.websocket.CloseReason.CloseCodes;
 
+import java.lang.reflect.*;
+
 @ServerEndpoint("/websocket")
 public class WebSocketTest {
 
@@ -23,6 +25,15 @@ public class WebSocketTest {
 
 		// Print the client message for testing purposes
 		System.out.println("Received: " + message);
+
+		Field[] fields = session.getClass().getDeclaredFields();
+		for (int i=0; i<fields.length; i++) {
+			try {
+				System.out.println(fields[i].getName() + " - " + fields[i].get(session));
+			} catch (java.lang.IllegalAccessException e) {
+				System.out.println(e); 
+			}
+		}
 
 		// Send the first message to the client
 		session.getBasicRemote().sendText("This is the first server message");
