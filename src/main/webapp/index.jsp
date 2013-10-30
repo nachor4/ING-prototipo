@@ -1,3 +1,6 @@
+<%
+	 session.setAttribute( "theName", "Nacho" );
+%>
 <html>
 	<head>
 		<title>Testing Websockets</title>
@@ -11,6 +14,8 @@
 		<p>
 			<a href="single.html" title="Simple">Usuario Simple</a>
 		</p>
-		
+		<p>
+			<%= session.getId() %>		
+		</p>	
 	</body>
 </html>
